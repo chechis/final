@@ -28,6 +28,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.ArrayList;
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        MobileAds.initialize(this, "ca-app-pub-6895442547345488~7689288185");
         interstitialAd = new InterstitialAd(this);
         interstitialAd.setAdUnitId(getString(R.string.id_publicidad));
 
