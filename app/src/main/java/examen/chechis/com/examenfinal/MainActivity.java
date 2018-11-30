@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
     private ArrayList<BarEntry> yVals1;
 
     private InterstitialAd interstitialAd;
+    AdRequest adRequest;
 
 
     @Override
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         MobileAds.initialize(this, getString(R.string.id_col_publicidad));
         interstitialAd = new InterstitialAd(this);
         interstitialAd.setAdUnitId(getString(R.string.id_publicidad));
+
+        adRequest = new AdRequest.Builder().build();
+        interstitialAd.loadAd(adRequest);
 
         tilNumeroDia = (TextInputLayout) findViewById(R.id.tilNumeroDia);
         tilGasto = (TextInputLayout) findViewById(R.id.tilGasto);
@@ -204,12 +208,14 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         } else {
             Toast.makeText(this, getString(R.string.publicidad_cargando), Toast.LENGTH_SHORT).show();
             iniciar();
+
         }
     }
 
     private void iniciar() {
-        AdRequest adRequest = new AdRequest.Builder().build();
+        adRequest = new AdRequest.Builder().build();
         interstitialAd.loadAd(adRequest);
+        interstitialAd.show();
     }
 
     @Override

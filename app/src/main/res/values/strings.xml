@@ -4,7 +4,7 @@
     <string name="campos_obligatorios">Debe llenar los campos</string>
     <string name="restriccion_numero_dia">Número de días válidos 1 a 6</string>
     <string name="anuncio">Anuncio</string>
-    <string name="id_publicidad">ca-app-pub-6895442547345488/3553891618</string>
-    <string name="id_col_publicidad">ca-app-pub-6895442547345488~7689288185</string>
+    <string name="id_publicidad">ca-app-pub-3940256099942544/8691691433</string>
+    <string name="id_col_publicidad">ca-app-pub-3940256099942544~3347511713</string>
     <string name="publicidad_cargando">El anuncio se está cargando...</string>
 </resources>
