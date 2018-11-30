@@ -49,10 +49,11 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        MobileAds.initialize(this, "ca-app-pub-6895442547345488~7689288185");
+        MobileAds.initialize(this, getString(R.string.id_col_publicidad));
         interstitialAd = new InterstitialAd(this);
         interstitialAd.setAdUnitId(getString(R.string.id_publicidad));
 
