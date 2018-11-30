@@ -26,6 +26,8 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.ArrayList;
 
@@ -38,7 +40,8 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
 
     protected BarChart mChart;
     private ArrayList<BarEntry> yVals1;
-    
+
+    private InterstitialAd interstitialAd;
 
 
     @Override
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId(getString(R.string.id_publicidad));
 
         tilNumeroDia = (TextInputLayout) findViewById(R.id.tilNumeroDia);
         tilGasto = (TextInputLayout) findViewById(R.id.tilGasto);
@@ -184,10 +189,30 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            verPublicidad();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void verPublicidad() {
+        if (interstitialAd != null && interstitialAd.isLoaded()) {
+            interstitialAd.show();
+        } else {
+            Toast.makeText(this, getString(R.string.publicidad_cargando), Toast.LENGTH_SHORT).show();
+            iniciar();
+        }
+    }
+
+    private void iniciar() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        interstitialAd.loadAd(adRequest);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        iniciar();
     }
 
     @Override
