@@ -10,15 +10,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
@@ -31,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
 
     protected BarChart mChart;
     private ArrayList<BarEntry> yVals1;
-
+    
 
 
     @Override
@@ -87,6 +94,79 @@ public class MainActivity extends AppCompatActivity implements OnChartValueSelec
         actualizarGrafico();
 
     }
+
+
+    public void onClickAgregarGasto(View view) {
+        EditText txtNumeroDia = tilNumeroDia.getEditText();
+        EditText txtGasto = tilGasto.getEditText();
+
+        if (!"".equals(txtNumeroDia.getText().toString())
+                && !"".equals(txtGasto.getText().toString())) {
+            int numeroDia = Integer.parseInt(txtNumeroDia.getText().toString());
+
+            if (numeroDia >= 1 && numeroDia <= 6) {
+                yVals1.get(numeroDia).setY(Float.parseFloat(txtGasto.getText().toString()));
+
+                actualizarGrafico();
+
+                View v = this.getCurrentFocus();
+                if (v != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+
+                txtNumeroDia.setText(null);
+                txtGasto.setText(null);
+            } else {
+                Toast.makeText(this, getString(R.string.restriccion_numero_dia), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, getString(R.string.campos_obligatorios), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private void actualizarGrafico() {
+
+        mChart.clear();
+
+        float start = 0f;
+
+        mChart.getXAxis().setAxisMinValue(start);
+        mChart.getXAxis().setAxisMaxValue(start + 6 + 1);
+
+        mChart.getAxisRight().setAxisMinimum(0);
+        mChart.getAxisLeft().setAxisMinimum(0);
+        mChart.getAxisLeft().setSpaceMax(10);
+        mChart.getAxisRight().setSpaceMax(10);
+        mChart.getAxisLeft().setSpaceMin(10);
+        mChart.getAxisRight().setSpaceMin(10);
+
+        BarDataSet set1;
+
+        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
+            set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
+            set1.setValues(yVals1);
+            mChart.getData().notifyDataChanged();
+            mChart.invalidate();
+        } else {
+
+            set1 = new BarDataSet(yVals1, "Días");
+            set1.setColors(ColorTemplate.MATERIAL_COLORS);
+
+            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+            dataSets.add(set1);
+            BarData data = new BarData(dataSets);
+            data.setValueTextSize(10f);
+            data.setValueTypeface(Typeface.SERIF);
+            data.setBarWidth(0.9f);
+            mChart.setData(data);
+            mChart.getData().notifyDataChanged();
+            mChart.invalidate();
+        }
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Examen final</string>
     <string name="action_settings">Settings</string>
+    <string name="campos_obligatorios">Debe llenar los campos</string>
+    <string name="restriccion_numero_dia">Número de días válidos 1 a 6</string>
+    <string name="anuncio">Anuncio</string>
+    <string name="id_publicidad">ca-app-pub-4529798687453598/5620693894</string>
+    <string name="publicidad_cargando">El anuncio se está cargando...</string>
 </resources>
